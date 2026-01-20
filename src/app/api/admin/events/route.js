@@ -1,0 +1,23 @@
+import { connectDB } from "@/lib/mongoDB";
+import Event from "@/models/Event";
+import { NextResponse } from "next/server";
+
+export async function POST(req){
+    connectDB()
+
+    try {
+        const data = await req.json()
+
+        const event = new Event(data)
+        await event.save()
+        return NextResponse.json(
+            { message: "event saved successfully", error: error.message },
+            { status: 201 }
+        )
+    }catch(error){
+        return NextResponse.json(
+            { message: "Error saving event" },
+            { status: 500 }
+        )
+    }
+}
