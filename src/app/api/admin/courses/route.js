@@ -24,7 +24,7 @@ export async function POST(req){
             { status: 201 })
     }catch(error){
         return NextResponse.json(
-            { message: "Error fetching courses", error: error.message },
+            { message: "Error creating courses", error: error.message },
             { status: 500 }
         )
     }
