@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Calendar, Clock, MapPin, FileText } from 'lucide-react';
 import { IoMdClose } from "react-icons/io";
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';

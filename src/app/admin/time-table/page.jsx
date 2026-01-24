@@ -2,8 +2,8 @@
 
 import ModernCalendar from "@/app/components/calendar";
 import EventDeleteButton from "@/app/components/eventDeleteButton";
+import EventEditButton from "@/app/components/eventEditButton";
 import Loader from "@/app/components/loader";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TimeTable() { 
@@ -28,7 +28,7 @@ export default function TimeTable() {
 
   return (
     <div className="h-full bg-linear-to-br from-primary via-white to-blue-50 pt-2 px-8">
-      <div className="max-w-7xl mx-auto pb-6">
+        <div className="max-w-7xl mx-auto pb-6">
         {/* Header Section */}
         <div className="mb-4">
           <h1 className="text-4xl font-bold text-secondary mb-2">Time Table</h1>
@@ -109,9 +109,7 @@ export default function TimeTable() {
                         </td>
                         <td className="py-4 whitespace-nowrap">
                           <div className="text-sm text-white flex gap-2">
-                            <Link href='/' className="px-2 py-1 rounded-md bg-accent hover:bg-accent/80">
-                              Edit
-                            </Link>
+                            <EventEditButton event={event} reload={()=>{setIsLoading(true)}} />
                             <EventDeleteButton eventID={event.eventID} reload={()=>{setIsLoading(true)}} />
                           </div>
                         </td>
@@ -134,7 +132,7 @@ export default function TimeTable() {
             </>
           )}
         </div>
-      </div>
+      </div>   
     </div>
   )
 }
