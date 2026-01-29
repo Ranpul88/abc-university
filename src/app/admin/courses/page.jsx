@@ -103,7 +103,7 @@ export default function AdminStudentPage() {
                         <td className="px-4 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div>
-                              <p className="text-sm font-medium text-secondary">{course.courseName}</p>
+                              <p className="text-sm font-medium text-secondary">{course.courseName.replace(/-/g, ' ')}</p>
                             </div>
                           </div>
                         </td>

@@ -31,7 +31,7 @@ export default function AddCourse() {
     
     setIsLoading(true)
 
-    const storeCourseName = courseName.replace(' ', '-');
+    const storeCourseName = courseName.replace(/ /g, '-');
     const modeInArray = mode.split(',')
     const deliveryInArray = delivery.split(',')
     const intakesInArray = intakes.split(',')
