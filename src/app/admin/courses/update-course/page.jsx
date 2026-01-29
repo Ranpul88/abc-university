@@ -11,6 +11,19 @@ export default function UpdateCourse() {
     const courseName = searchParams.get('courseName');
 
     const [course, setCourse] = useState([]);
+    const [type, setType] = useState('');
+    const [department, setDepartment] = useState('');
+    const [duration, setDuration] = useState('');
+    const [mode, setMode] = useState('');
+    const [delivery, setDelivery] = useState('');
+    const [description, setDescription] = useState('');
+    const [entryRequirements, setEntryRequirements] = useState('');
+    const [hallNo, setHallNo] = useState('');
+    const [intakes, setIntakes] = useState('');
+    const [files, setFiles] = useState([]);
+    const [availability, setAvailability] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
         fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
@@ -22,27 +35,24 @@ export default function UpdateCourse() {
         })
         .then(res => res.json())
         .then((data) => {
-            setCourse(data);
+            // setCourse(data);
+            setType(data.type);
+            setDepartment(data.department);
+            setDuration(data.duration);
+            setMode(data.mode.join(','));
+            setDelivery(data.delivery.join(','));
+            setDescription(data.description);
+            setEntryRequirements(data.entryRequirements);
+            setHallNo(data.hallNo);
+            setIntakes(data.intakes.join(','));
+            setAvailability(data.availability.toString());
         })
     }, [])
-
-    const type = course.type;
-    const department = course.department;
-    const [duration, setDuration] = useState(course.duration);
-    const [mode, setMode] = useState(course.mode);
-    const [delivery, setDelivery] = useState(course.delivery);
-    const [description, setDescription] = useState(course.description);
-    const [entryRequirements, setEntryRequirements] = useState(course.entryRequirements);
-    const [hallNo, setHallNo] = useState(course.hallNo);
-    const [intakes, setIntakes] = useState(course.intakes);
-    // const [files, setFiles] = useState([]);
-    const [availability, setAvailability] = useState(course.availability);
-    const [isLoading, setIsLoading] = useState();
 
     const router = useRouter();
 
     async function updateCourse(){
-        if(courseName.trim() == "" || department.trim() == "" || duration.trim() == "" || mode.trim() == "" || delivery.trim() == "" || description.trim() == "" || entryRequirements.trim() == "" || intakes.trim() == ""){
+        if(duration.trim == "" || mode.trim == "" || delivery.trim == "" || description.trim == "" || entryRequirements.trim == "" || hallNo.trim == "" || intakes.trim == ""){
         toast.error("Please fill in all required fields.")
         return
         }
@@ -53,7 +63,7 @@ export default function UpdateCourse() {
         const deliveryInArray = delivery.split(',')
         const intakesInArray = intakes.split(',')
 
-        const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/courses', {
+        const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/courses/' + courseName, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -100,44 +110,44 @@ export default function UpdateCourse() {
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Duration</label>
-                <input type="text" value={duration} onChange={(e) => setDuration(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={duration} onChange={(e) => {setDuration(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Mode<p className="text-sm text-gray-500">(eg: part-time or full-time)</p></label>
-                <input type="text" value={mode} onChange={(e) => setMode(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={mode} onChange={(e) => {setMode(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Delivery<p className="text-sm text-gray-500">(eg: online, physical or hybrid)</p></label>
-                <input type="text" value={delivery} onChange={(e) => setDelivery(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={delivery} onChange={(e) => {setDelivery(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Description</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
+                <textarea value={description} onChange={(e) => {setDescription(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Entry Requirements</label>
-                <textarea type="text" value={entryRequirements} onChange={(e) => setEntryRequirements(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={entryRequirements} onChange={(e) => {setEntryRequirements(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Hall No</label>
-                <textarea type="text" value={hallNo} onChange={(e) => setHallNo(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={hallNo} onChange={(e) => {setHallNo(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Intakes<p className="text-sm text-gray-500">(monthes)</p></label>
-                <input type="text" value={intakes} onChange={(e) => setIntakes(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={intakes} onChange={(e) => {setIntakes(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             {/* <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
-                <input type="file" multiple={true} value={files} onChange={(e) => setFiles(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
+                <input type="file" multiple={true} value={files} onChange={(e) => {setFiles(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
             </div> */}
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Availability</label>
-                <select value={availability} onChange={(e) => setAvailability(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                <select value={availability} onChange={(e) => {setAvailability(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                 </select>
             </div>
-            <button onClick={updateCourse} className="mt-4 bg-accent text-white cursor-pointer px-4 py-2 rounded-md hover:bg-accent/80 transition-colors duration-200">
+            <button onClick={updateCourse} disabled={disabled} className={`mt-4  text-white px-4 py-2 rounded-md  ${disabled ? 'bg-accent/50 cursor-not-allowed' : 'hover:bg-accent/80 transition-colors duration-200 bg-accent cursor-pointer'}`}>
                 Update Course
             </button>
 
