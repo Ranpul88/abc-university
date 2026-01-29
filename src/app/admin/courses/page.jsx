@@ -1,6 +1,7 @@
 'use client'
 
 import Loader from "@/app/components/loader";
+import RemoveCourseButton from "@/app/components/removeCourseButton";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -33,7 +34,7 @@ export default function AdminStudentPage() {
       toast.error('Failed to fetch courses')
       setIsLoading(false)
     })
-  }, [])
+  }, [isLoading])
 
   return (
     <div className="h-full bg-linear-to-br from-primary via-white to-blue-50 pt-2 px-8">
@@ -130,9 +131,7 @@ export default function AdminStudentPage() {
                               className="px-2 py-1 rounded-md bg-accent hover:bg-accent/80">
                               Edit
                             </Link>
-                            <button className="border px-2 py-1 bg-red-600 rounded-md hover:bg-red-500 cursor-pointer">
-                              Block
-                            </button>
+                            <RemoveCourseButton courseName={course.courseName} availability={course.availability} />
                           </div>
                         </td>
                       </tr>
