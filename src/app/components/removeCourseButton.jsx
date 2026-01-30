@@ -7,28 +7,26 @@ export default function RemoveCourseButton(props) {
     const [isAvailable, setIsAvailable] = useState(props.availability);
 
     async function toggleAvailability(){{
-        setIsAvailable(!isAvailable);
-        
-        fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
+
+        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ availability: isAvailable })
+        body: JSON.stringify({ availability: !isAvailable })
         })
-        .then(res => {
         if(!res.ok){
             toast.error("Error updating course. Please try again.");
             return
         }
+        setIsAvailable(!isAvailable);
         toast.success("Course updated successfully!");
-        })
     }}
 
     return (
     <>
-        {isAvailable ? <button className="border px-2 py-1 bg-green-600 rounded-md hover:bg-green-500 cursor-pointer" onClick={toggleAvailability}>
-            Restore
-        </button> : <button className="border px-2 py-1 bg-red-600 rounded-md hover:bg-red-500 cursor-pointer" onClick={toggleAvailability}>
+        {isAvailable ? <button className="border px-2 py-1 bg-red-600 rounded-md hover:bg-red-500 cursor-pointer" onClick={toggleAvailability}>
             Remove
+        </button> : <button className="border px-2 py-1 bg-green-600 rounded-md hover:bg-green-500 cursor-pointer" onClick={toggleAvailability}>
+            Restore
         </button>}
     </>
 
