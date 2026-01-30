@@ -93,6 +93,7 @@ export default function AddCourse() {
     setIntakes('')
     setFiles([])
     setAvailability(true)
+
     router.push('/admin/courses');
     setIsLoading(false)
   }
@@ -143,9 +144,9 @@ export default function AddCourse() {
             <input type="text" value={intakes} onChange={(e) => setIntakes(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
           </div>
           <div className="flex flex-col">
-                <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
-                <input type="file" multiple={true} value={files} onChange={(e) => {setFiles(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
-            </div>
+              <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
+              <input type="file" multiple={true} onChange={(e) => setFiles(e.target.files)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
+          </div>
           <div className="flex flex-col">
             <label className="mb-1 font-medium text-gray-700">Availability</label>
             <select value={availability} onChange={(e) => setAvailability(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">

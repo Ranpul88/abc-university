@@ -53,7 +53,7 @@ const courseSchema = new mongoose.Schema({
             type: Number,
         }
     },
-    courseContents: {
+    courseContent: {
         type: [String],
         required: true
     },
