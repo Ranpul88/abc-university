@@ -1,6 +1,7 @@
 'use client'
 
 import Loader from "@/app/components/loader";
+import uploadFile from "@/lib/mediaUpload";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -36,6 +37,22 @@ export default function AddCourse() {
     const deliveryInArray = delivery.split(',')
     const intakesInArray = intakes.split(',')
 
+    const courseContentPromises = []
+
+    for(let i = 0; i < files.length; i++){
+      const promises = uploadFile(files[i])
+      courseContentPromises.push(promises)
+    }
+
+    const courseContent = await Promise.all(courseContentPromises)
+      .catch((err)=>{
+        toast.error("Error uploading course content, Please try again.")
+        console.log("Error uploading course content: ")
+        console.log(err)
+        setIsLoading(false)
+        return
+      })
+
     const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/courses', {
       method: 'POST',
       headers: {
@@ -52,6 +69,7 @@ export default function AddCourse() {
         entryRequirements: entryRequirements,
         hallNo: hallNo,
         intakes: intakesInArray,
+        courseContent: courseContent,
         availability: availability
       })
     });
@@ -75,6 +93,7 @@ export default function AddCourse() {
     setIntakes('')
     setFiles([])
     setAvailability(true)
+
     router.push('/admin/courses');
     setIsLoading(false)
   }
@@ -125,8 +144,8 @@ export default function AddCourse() {
             <input type="text" value={intakes} onChange={(e) => setIntakes(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
           </div>
           <div className="flex flex-col">
-            <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
-            <input type="file" multiple={true} value={files} onChange={(e) => setFiles(e.target.value)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
+              <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
+              <input type="file" multiple={true} onChange={(e) => setFiles(e.target.files)} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
           </div>
           <div className="flex flex-col">
             <label className="mb-1 font-medium text-gray-700">Availability</label>
