@@ -124,20 +124,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <footer className="border-t border-secondary/10 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-bold mb-2">ABC University</h3>
-              <p className="text-secondary/60">Empowering minds, shaping futures.</p>
-            </div>
-            <div className="text-center md:text-right text-secondary/60">
-              <p>&copy; 2026 ABC University. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer> */}
     </div>
   );
 }
