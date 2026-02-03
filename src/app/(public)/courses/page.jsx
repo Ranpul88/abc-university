@@ -18,20 +18,25 @@ export default function Courses() {
                 }
             })
             .then(res => {return res.json()})
-            .then(data => setCourses(data))
+            .then(data => {
+                setCourses(data)
+            })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
             })
         }else{
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/category/' + selectedCategory, {
+            console.log(selectedCategory)
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/' + selectedCategory, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
             .then(res => {return res.json()})
-            .then(data => setCourses(data))
+            .then(data => {
+                setCourses(data)
+            })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
@@ -97,9 +102,9 @@ export default function Courses() {
                                     All
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("computing")}
+                                    onClick={() => setSelectedCategory("Computing")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "computing"
+                                        selectedCategory === "Computing"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
@@ -107,9 +112,9 @@ export default function Courses() {
                                     Computing
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("business")}
+                                    onClick={() => setSelectedCategory("Business")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "business"
+                                        selectedCategory === "Business"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
@@ -117,9 +122,9 @@ export default function Courses() {
                                     Business Management
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("engineering")}
+                                    onClick={() => setSelectedCategory("Engineering")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "engineering"
+                                        selectedCategory === "Engineering"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
