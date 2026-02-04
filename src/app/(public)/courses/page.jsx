@@ -100,6 +100,9 @@ export default function Courses() {
                                             toast.error("Error searching course. Please try again.");
                                             return
                                         }
+                                        const data = await res.json()
+                                        setCourses(data)
+                                        setIsLoading(false)
                                     }
                                 }}
                                 className="w-full px-6 py-3 bg-white border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
