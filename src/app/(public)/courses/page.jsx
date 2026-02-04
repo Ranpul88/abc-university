@@ -1,13 +1,15 @@
 'use client'
 
+import Loader from '@/app/components/loader';
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
 export default function Courses() {
     
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [searchQuery, setSearchQuery] = useState('');
+    // const [searchQuery, setSearchQuery] = useState('');
     const [courses, setCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
  
     useEffect(() => {
         if(selectedCategory === 'all') {
@@ -20,13 +22,14 @@ export default function Courses() {
             .then(res => {return res.json()})
             .then(data => {
                 setCourses(data)
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
+                setIsLoading(false)
             })
         }else{
-            console.log(selectedCategory)
             fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/' + selectedCategory, {
                 method: 'GET',
                 headers: {
@@ -36,10 +39,12 @@ export default function Courses() {
             .then(res => {return res.json()})
             .then(data => {
                 setCourses(data)
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
+                setIsLoading(false)
             })
         }
     },[selectedCategory])
@@ -83,8 +88,23 @@ export default function Courses() {
                             <input
                                 type="text"
                                 placeholder="Search courses..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={async (e) => {
+                                    if(e.target.value != ""){
+                                        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/search/' + e.target.value, {
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        if(!res.ok){
+                                            toast.error("Error searching course. Please try again.");
+                                            return
+                                        }
+                                        const data = await res.json()
+                                        setCourses(data)
+                                        setIsLoading(false)
+                                    }
+                                }}
                                 className="w-full px-6 py-3 bg-white border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
                             />
                         </div>
@@ -138,6 +158,7 @@ export default function Courses() {
 
             {/* Courses Grid */}
             <section className="py-12 relative">
+                {isLoading ? <Loader /> :
                 <div className="max-w-7xl mx-auto px-6">
                     {courses.length === 0 ? (
                         <div className="text-center py-20">
@@ -196,7 +217,7 @@ export default function Courses() {
                             </div>
                         </>
                     )}
-                </div>
+                </div>}
             </section>
         </div>
     )
