@@ -1,13 +1,15 @@
 'use client'
 
+import Loader from '@/app/components/loader';
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
 export default function Courses() {
     
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [searchQuery, setSearchQuery] = useState('');
+    // const [searchQuery, setSearchQuery] = useState('');
     const [courses, setCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
  
     useEffect(() => {
         if(selectedCategory === 'all') {
@@ -18,23 +20,31 @@ export default function Courses() {
                 }
             })
             .then(res => {return res.json()})
-            .then(data => setCourses(data))
+            .then(data => {
+                setCourses(data)
+                setIsLoading(false)
+            })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
+                setIsLoading(false)
             })
         }else{
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/category/' + selectedCategory, {
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/' + selectedCategory, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
             .then(res => {return res.json()})
-            .then(data => setCourses(data))
+            .then(data => {
+                setCourses(data)
+                setIsLoading(false)
+            })
             .catch(err => {
                 console.log(err)
                 toast.error("Error fetching courses, Please try again.")
+                setIsLoading(false)
             })
         }
     },[selectedCategory])
@@ -78,8 +88,23 @@ export default function Courses() {
                             <input
                                 type="text"
                                 placeholder="Search courses..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={async (e) => {
+                                    if(e.target.value != ""){
+                                        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/courses/search/' + e.target.value, {
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        if(!res.ok){
+                                            toast.error("Error searching course. Please try again.");
+                                            return
+                                        }
+                                        const data = await res.json()
+                                        setCourses(data)
+                                        setIsLoading(false)
+                                    }
+                                }}
                                 className="w-full px-6 py-3 bg-white border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all"
                             />
                         </div>
@@ -97,9 +122,9 @@ export default function Courses() {
                                     All
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("computing")}
+                                    onClick={() => setSelectedCategory("Computing")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "computing"
+                                        selectedCategory === "Computing"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
@@ -107,9 +132,9 @@ export default function Courses() {
                                     Computing
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("business")}
+                                    onClick={() => setSelectedCategory("Business")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "business"
+                                        selectedCategory === "Business"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
@@ -117,9 +142,9 @@ export default function Courses() {
                                     Business Management
                                 </button>
                                 <button
-                                    onClick={() => setSelectedCategory("engineering")}
+                                    onClick={() => setSelectedCategory("Engineering")}
                                     className={`px-6 py-2.5 rounded-xl font-medium cursor-pointer transition-all duration-300 ${
-                                        selectedCategory === "engineering"
+                                        selectedCategory === "Engineering"
                                             ? 'bg-accent text-white shadow-lg shadow-accent/20'
                                             : 'bg-white text-secondary/70 border border-secondary/20 hover:border-accent/30'
                                     }`}
@@ -133,6 +158,7 @@ export default function Courses() {
 
             {/* Courses Grid */}
             <section className="py-12 relative">
+                {isLoading ? <Loader /> :
                 <div className="max-w-7xl mx-auto px-6">
                     {courses.length === 0 ? (
                         <div className="text-center py-20">
@@ -191,7 +217,7 @@ export default function Courses() {
                             </div>
                         </>
                     )}
-                </div>
+                </div>}
             </section>
         </div>
     )
