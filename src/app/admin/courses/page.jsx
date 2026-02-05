@@ -30,6 +30,7 @@ export default function AdminStudentPage() {
       setIsLoading(false)
     })
     .catch(err=>{
+      console.log('Failed to fetch courses')
       console.log(err)
       toast.error('Failed to fetch courses')
       setIsLoading(false)

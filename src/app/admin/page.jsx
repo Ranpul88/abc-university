@@ -2,6 +2,7 @@
 
 import Loader from "@/app/components/loader";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AdminStudentPage() { 
   
@@ -20,7 +21,12 @@ export default function AdminStudentPage() {
       setStudents(data)
       setIsLoading(false)
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log("Error fetching students")
+      console.log(err)
+      toast.error("Error fetching students, Please try again.")
+      setIsLoading(false)
+    })
   }, [])
 
   return (

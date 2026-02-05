@@ -49,33 +49,40 @@ export default function ModernCalendar(props) {
       return;
     }
 
-    const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        date: dateKey,
-        eventTitle: title,
-        time: time,
-        location: location,
-        description: description
-      })
-    });
+    try{
+      const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          date: dateKey,
+          eventTitle: title,
+          time: time,
+          location: location,
+          description: description
+        })
+      });
 
-    if(!res.ok) {
+      if(!res.ok) {
+        toast.error("Error saving event. Please try again.");
+        return;
+      }
+      
+      setTitle('')
+      setTime('')
+      setLocation('')
+      setDescription('')
+      setShowModal(false);
+      toast.success("Event saved successfully!");
+      props.reload();
+
+    }catch(error){
+      setShowModal(false);
+      console.log("Error saving event: ");
+      console.log(error);
       toast.error("Error saving event. Please try again.");
-      return;
     }
-    
-    setTitle('')
-    setTime('')
-    setLocation('')
-    setDescription('')
-    setShowModal(false);
-    toast.success("Event saved successfully!");
-    props.reload();
-
   };
 
   const closeModal = () => {

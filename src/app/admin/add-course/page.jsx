@@ -29,73 +29,79 @@ export default function AddCourse() {
       toast.error("Please fill in all required fields.")
       return
     }
-    
-    setIsLoading(true)
+    try{
+      setIsLoading(true)
 
-    const storeCourseName = courseName.replace(/ /g, '-');
-    const modeInArray = mode.split(',')
-    const deliveryInArray = delivery.split(',')
-    const intakesInArray = intakes.split(',')
+      const storeCourseName = courseName.replace(/ /g, '-');
+      const modeInArray = mode.split(',')
+      const deliveryInArray = delivery.split(',')
+      const intakesInArray = intakes.split(',')
 
-    const courseContentPromises = []
+      const courseContentPromises = []
 
-    for(let i = 0; i < files.length; i++){
-      const promises = uploadFile(files[i])
-      courseContentPromises.push(promises)
-    }
+      for(let i = 0; i < files.length; i++){
+        const promises = uploadFile(files[i])
+        courseContentPromises.push(promises)
+      }
 
-    const courseContent = await Promise.all(courseContentPromises)
-      .catch((err)=>{
-        toast.error("Error uploading course content, Please try again.")
-        console.log("Error uploading course content: ")
-        console.log(err)
+      const courseContent = await Promise.all(courseContentPromises)
+        .catch((err)=>{
+          toast.error("Error uploading course content, Please try again.")
+          console.log("Error uploading course content: ")
+          console.log(err)
+          setIsLoading(false)
+          return
+        })
+
+      const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/courses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          courseName: storeCourseName,
+          type: type,
+          department: department,
+          duration: duration,
+          mode: modeInArray,
+          delivery: deliveryInArray,
+          description: description,
+          entryRequirements: entryRequirements,
+          hallNo: hallNo,
+          intakes: intakesInArray,
+          courseContent: courseContent,
+          availability: availability
+        })
+      });
+
+      if(!res.ok){
+        toast.error("Error adding course. Please try again.")
         setIsLoading(false)
         return
-      })
+      }
 
-    const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/courses', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        courseName: storeCourseName,
-        type: type,
-        department: department,
-        duration: duration,
-        mode: modeInArray,
-        delivery: deliveryInArray,
-        description: description,
-        entryRequirements: entryRequirements,
-        hallNo: hallNo,
-        intakes: intakesInArray,
-        courseContent: courseContent,
-        availability: availability
-      })
-    });
+      toast.success("Course added successfully!")
+      setCourseName('')
+      setType('')
+      setDepartment('')
+      setDuration('')
+      setMode('')
+      setDelivery('')
+      setDescription('')
+      setEntryRequirements('')
+      setHallNo('')
+      setIntakes('')
+      setFiles([])
+      setAvailability(true)
 
-    if(!res.ok){
-      toast.error("Error adding course. Please try again.")
+      router.push('/admin/courses');
       setIsLoading(false)
-      return
+
+    }catch(error){
+      console.log("Error adding course: ")
+      console.log(error)
+      setIsLoading(false)
     }
-
-    toast.success("Course added successfully!")
-    setCourseName('')
-    setType('')
-    setDepartment('')
-    setDuration('')
-    setMode('')
-    setDelivery('')
-    setDescription('')
-    setEntryRequirements('')
-    setHallNo('')
-    setIntakes('')
-    setFiles([])
-    setAvailability(true)
-
-    router.push('/admin/courses');
-    setIsLoading(false)
   }
 
   return (
