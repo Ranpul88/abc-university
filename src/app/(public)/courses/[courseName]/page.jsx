@@ -59,30 +59,38 @@ export default function CourseOverview() {
   }
 
   async function handleEnroll(){
-    const isAuthenticated = await checkAuth()
-    const currentPath = window.location.pathname
-    
-    if(!isAuthenticated.authenticated){
-      router.push(`/auth/login?error=login_required&redirect=${encodeURIComponent(currentPath)}`)
-    }
+    try{
+      const isAuthenticated = await checkAuth()
+      const currentPath = window.location.pathname
+      
+      if(!isAuthenticated.authenticated){
+        router.push(`/auth/login?error=login_required&redirect=${encodeURIComponent(currentPath)}`)
+        return
+      }
 
-    const res = fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/students`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: isAuthenticated.email,
-        courseName: courseName
+      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/students`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: isAuthenticated.email,
+          courseName: courseName
+        })
       })
-    })
 
-    if(!res.ok){
+      if(!res.ok){
+        toast.error("Error enrolling in course. Please try again.")
+        return
+      }
+      setOpenMessage(false)
+      toast.success("Enrolled in course successfully!")
+      router.push(`/courses/${courseName}`)
+    }catch(error){
+      console.log("Error enrolling in course")
+      console.log(error)
       toast.error("Error enrolling in course. Please try again.")
-      return
     }
-    toast.success("Enrolled in course successfully!")
-    router.push(`/courses/${courseName}`)
     
   }
 
