@@ -1,13 +1,13 @@
 'use client'
 
 import Loader from '@/app/components/loader';
+import Link from 'next/link';
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
 export default function Courses() {
     
     const [selectedCategory, setSelectedCategory] = useState('all');
-    // const [searchQuery, setSearchQuery] = useState('');
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
  
@@ -208,9 +208,9 @@ export default function Courses() {
 
                                         {/* Course Footer */}
                                         <div className="p-6 pt-0">
-                                            <button className="w-full bg-accent text-white font-semibold py-3 px-6 rounded-xl hover:bg-accent/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl hover:shadow-accent/20 group-hover:scale-[1.02]">
+                                            <Link href={`/courses/${course.courseName}`} className="w-full bg-accent text-white font-semibold py-3 px-6 rounded-xl hover:bg-accent/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl hover:shadow-accent/20 group-hover:scale-[1.02]">
                                                 Enroll Now
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 ))}
