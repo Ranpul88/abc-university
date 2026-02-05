@@ -43,9 +43,6 @@ export async function POST(req){
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10)
-        
-        console.log(role)
-        console.log(userID)
 
         const user = new User({
             firstName: data.firstName,
