@@ -6,21 +6,28 @@ export default function EventDeleteButton(props) {
     const [messageOpen, setMessageOpen] = useState(false)
 
     async function deleteEvent(){
-        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ eventID: props.eventID })
-        })
-        
-        if(!res.ok){
+        try{
+            const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ eventID: props.eventID })
+            })
+            
+            if(!res.ok){
+                toast.error("Error deleting event. Please try again.")
+                return
+            }
+    
+            toast.success("Event deleted successfully!")
+            props.reload()
+
+        }catch(error){
+            console.log("Error deleting event")
+            console.log(error)
             toast.error("Error deleting event. Please try again.")
-            return
         }
- 
-        toast.success("Event deleted successfully!")
-        props.reload()
     }
   
     return (

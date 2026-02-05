@@ -9,18 +9,24 @@ export default function RemoveCourseButton(props) {
     async function toggleAvailability(){{
         setIsAvailable(!isAvailable);
         
-        fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ availability: isAvailable })
-        })
-        .then(res => {
-        if(!res.ok){
-            toast.error("Error updating course. Please try again.");
-            return
+        try{
+            const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ availability: isAvailable })
+            })
+
+            if(!res.ok) {
+                toast.error("Error updating course availability. Please try again.");
+                return;
+            }
+            toast.success("Course availability updated successfully!");
+
+        }catch(error){
+            console.log("Error updating course availability");
+            console.log(error);
+            toast.error("Error updating course availability. Please try again.");
         }
-        toast.success("Course updated successfully!");
-        })
     }}
 
     return (

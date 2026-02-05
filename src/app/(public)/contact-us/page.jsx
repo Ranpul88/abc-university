@@ -5,7 +5,6 @@ import { useState } from 'react'
 import toast from 'react-hot-toast';
 
 export default function ContactUs() {
-    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -14,35 +13,42 @@ export default function ContactUs() {
     const [loading, setLoading] = useState(false);
 
     async function sendEmail(){
-      
-      setLoading(true);
-      
-      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/contact-us', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone,
-                subject: subject,
-                message: message
-            })
-        })
+      try{
+        setLoading(true);
         
-        if(!res.ok){
-            toast.error("Error sending message. Please try again.");
-            return
-        }
+        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/contact-us', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  name: name,
+                  email: email,
+                  phone: phone,
+                  subject: subject,
+                  message: message
+              })
+          })
+          
+          if(!res.ok){
+              toast.error("Error sending message. Please try again.");
+              return
+          }
 
-        setLoading(false);
-        setName('');
-        setEmail('');
-        setPhone('');
-        setSubject('');
-        setMessage('');
-        toast.success("Message sent successfully!");
+          setLoading(false);
+          setName('');
+          setEmail('');
+          setPhone('');
+          setSubject('');
+          setMessage('');
+          toast.success("Message sent successfully!");
+          
+      }catch(error){
+          setLoading(false);
+          console.log("Error sending message");
+          console.log(error);
+          toast.error("Error sending message. Please try again.");
+      }
     }
     
   return (

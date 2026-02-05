@@ -5,6 +5,7 @@ import EventDeleteButton from "@/app/components/eventDeleteButton";
 import EventEditButton from "@/app/components/eventEditButton";
 import Loader from "@/app/components/loader";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function TimeTable() { 
   
@@ -23,7 +24,12 @@ export default function TimeTable() {
       setEvents(data)
       setIsLoading(false)
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log("Error fetching events")
+      console.log(err)
+      toast.error("Error fetching events, Please try again.")
+      setIsLoading(false)
+    })
   }, [isLoading])
 
   return (

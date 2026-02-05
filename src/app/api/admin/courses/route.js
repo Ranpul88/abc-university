@@ -53,6 +53,9 @@ export async function PUT(req){
         await Course.updateOne({ courseID: data.courseName }, { $set: {  description: data.description, mode: data.mode, delivery: data.delivery, entryRequirements: data.entryRequirements,hallNo: data.hallNo, intakes: data.intakes, availability: data.availability} })
         return NextResponse.json( { message: "Course updated successfully" }, { status: 200 } )
     } catch (error) {
-        
+        return NextResponse.json(
+            { message: "Error updating course", error: error.message },
+            { status: 500 }
+        )
     }
 }

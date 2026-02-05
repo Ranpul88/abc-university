@@ -11,7 +11,6 @@ export default function UpdateCourse() {
     const searchParams = useSearchParams();
     const courseName = searchParams.get('courseName');
 
-    const [course, setCourse] = useState([]);
     const [type, setType] = useState('');
     const [department, setDepartment] = useState('');
     const [duration, setDuration] = useState('');
@@ -36,7 +35,6 @@ export default function UpdateCourse() {
         })
         .then(res => res.json())
         .then((data) => {
-            // setCourse(data);
             setType(data.type);
             setDepartment(data.department);
             setDuration(data.duration);
@@ -48,6 +46,11 @@ export default function UpdateCourse() {
             setIntakes(data.intakes.join(','));
             setAvailability(data.availability.toString());
         })
+        .catch(err=>{
+            toast.error('Failed to fetch courses')
+            console.log(err)
+            // setIsLoading(false) has to improve with loader component and code optimization
+            })
     }, [])
 
     const router = useRouter();

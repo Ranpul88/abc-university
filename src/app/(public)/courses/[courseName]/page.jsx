@@ -28,6 +28,12 @@ export default function CourseOverview() {
       setCourse(data)
       setIsLoading(false)
     })
+    .catch(err=>{
+      console.log("Error fetching course details")
+      console.log(err)
+      toast.error("Error fetching course details, Please try again.")
+      setIsLoading(false)
+    })
   }, [activeTab])
 
   const tabs = [

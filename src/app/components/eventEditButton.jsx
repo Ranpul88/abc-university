@@ -21,21 +21,28 @@ export default function EventEditButton(props) {
 
         setDisable(true);
 
-        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ eventID: props.event.eventID, eventTitle: title, description: description, date: props.event.date, time: time, location: location })
-        })
-        
-        if(!res.ok){
+        try{
+            const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/admin/events', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ eventID: props.event.eventID, eventTitle: title, description: description, date: props.event.date, time: time, location: location })
+            })
+            
+            if(!res.ok){
+                toast.error("Error updating event. Please try again.")
+                return
+            }
+    
+            toast.success("Event updated successfully!")
+            props.reload()
+
+        }catch(error){
+            console.log("Error updating event")
+            console.log(error)
             toast.error("Error updating event. Please try again.")
-            return
         }
- 
-        toast.success("Event updated successfully!")
-        props.reload()
     }
 
   return (
