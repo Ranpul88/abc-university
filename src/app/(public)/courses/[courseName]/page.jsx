@@ -3,6 +3,7 @@
 import Loader from "@/app/components/loader"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 export default function CourseOverview() {
   const router = useRouter()
@@ -32,7 +33,58 @@ export default function CourseOverview() {
   const tabs = [
     { id: 'overview', label: 'Overview' },
     { id: 'syllabus', label: 'Syllabus' }
-  ] 
+  ]
+  
+  async function checkAuth(){
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/check-auth', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    const data = await res.json()
+    const isAuthenticated = {
+      authenticated: data.authenticated,
+      email: data.email
+    }
+    return isAuthenticated
+
+    }catch(error){
+      console.log("Error checking authentication")
+      console.log(error)
+      toast.error("Error checking authentication. Please try again.")
+    }
+    
+  }
+
+  async function handleEnroll(){
+    const isAuthenticated = await checkAuth()
+    const currentPath = window.location.pathname
+    
+    if(!isAuthenticated.authenticated){
+      router.push(`/auth/login?error=login_required&redirect=${encodeURIComponent(currentPath)}`)
+    }
+
+    const res = fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/students`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: isAuthenticated.email,
+        courseName: courseName
+      })
+    })
+
+    if(!res.ok){
+      toast.error("Error enrolling in course. Please try again.")
+      return
+    }
+    toast.success("Enrolled in course successfully!")
+    router.push(`/courses/${courseName}`)
+    
+  }
 
   return (
     <>
@@ -219,7 +271,7 @@ export default function CourseOverview() {
             <div className="w-full p-10 flex items-center justify-center gap-6">
               <button onClick={()=>{setOpenMessage(false)}} className="w-20 h-8 text-primary bg-red-600 cursor-pointer hover:bg-red-500">Cancel</button>
               <button onClick={()=>{
-                checkAuth()
+                handleEnroll()
               }} className="w-20 h-8 text-primary bg-accent cursor-pointer hover:bg-accent/90">Enroll</button>
             </div>
           </div>
