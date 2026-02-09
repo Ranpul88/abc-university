@@ -11,8 +11,7 @@ export default function UpdateCourse() {
     const searchParams = useSearchParams();
     const courseName = searchParams.get('courseName');
 
-    const [type, setType] = useState('');
-    const [department, setDepartment] = useState('');
+    const [course, setCourse] = useState([]);
     const [duration, setDuration] = useState('');
     const [mode, setMode] = useState('');
     const [delivery, setDelivery] = useState('');
@@ -26,6 +25,7 @@ export default function UpdateCourse() {
     const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true)
         fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/admin/courses/${courseName}`, {
         method: 'GET',
         headers: {
@@ -35,21 +35,13 @@ export default function UpdateCourse() {
         })
         .then(res => res.json())
         .then((data) => {
-            setType(data.type);
-            setDepartment(data.department);
-            setDuration(data.duration);
-            setMode(data.mode.join(','));
-            setDelivery(data.delivery.join(','));
-            setDescription(data.description);
-            setEntryRequirements(data.entryRequirements);
-            setHallNo(data.hallNo);
-            setIntakes(data.intakes.join(','));
-            setAvailability(data.availability.toString());
+            setCourse(data);
+            setIsLoading(false)
         })
         .catch(err=>{
             toast.error('Failed to fetch courses')
             console.log(err)
-            // setIsLoading(false) has to improve with loader component and code optimization
+            setIsLoading(false)
             })
     }, [])
 
@@ -119,51 +111,51 @@ export default function UpdateCourse() {
             <div className="flex flex-col gap-4">
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Course Name</label>
-                <input type="text" disabled={true} value={courseName} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={course.courseName} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Type<p className="text-sm text-gray-500">(eg: diploma, higher diploma or degree)</p></label>
-                <input type="text" disabled={true} value={type} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={course.type} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Department</label>
-                <input type="text" disabled={true} value={department} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={course.department} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Duration</label>
-                <input type="text" value={duration} onChange={(e) => {setDuration(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={course.duration} onChange={(e) => {setDuration(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Mode<p className="text-sm text-gray-500">(eg: part-time or full-time)</p></label>
-                <input type="text" value={mode} onChange={(e) => {setMode(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={course.mode} onChange={(e) => {setMode(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Delivery<p className="text-sm text-gray-500">(eg: online, physical or hybrid)</p></label>
-                <input type="text" value={delivery} onChange={(e) => {setDelivery(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={course.delivery} onChange={(e) => {setDelivery(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Description</label>
-                <textarea value={description} onChange={(e) => {setDescription(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
+                <textarea value={course.description} onChange={(e) => {setDescription(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Entry Requirements</label>
-                <textarea type="text" value={entryRequirements} onChange={(e) => {setEntryRequirements(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={course.entryRequirements} onChange={(e) => {setEntryRequirements(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Hall No</label>
-                <textarea type="text" value={hallNo} onChange={(e) => {setHallNo(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={course.hallNo} onChange={(e) => {setHallNo(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Intakes<p className="text-sm text-gray-500">(monthes)</p></label>
-                <input type="text" value={intakes} onChange={(e) => {setIntakes(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={course.intakes} onChange={(e) => {setIntakes(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
-                <input type="file" multiple={true} value={files} onChange={(e) => {setFiles(e.target.files), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
+                <input type="file" multiple={true} value={course.files} onChange={(e) => {setFiles(e.target.files), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
             </div>
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Availability</label>
-                <select value={availability} onChange={(e) => {setAvailability(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                <select value={course.availability} onChange={(e) => {setAvailability(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                 </select>
