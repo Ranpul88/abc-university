@@ -24,7 +24,7 @@ export default function UserData() {
         credentials: 'include'
       })
       const data = await res.json()
-      setUserID(data.user.userID)
+      setUserID(data.userID)
       setIsAuthenticated(data.authenticated)
       setIsLoading(false)
 

@@ -42,7 +42,11 @@ export async function POST(req){
             }
         }
 
-        const hashedPassword = await bcrypt.hash(data.password, 10)
+        let hashedPassword = ""
+
+        if(data.password){
+            hashedPassword = await bcrypt.hash(data.password, 10)
+        }
 
         const user = new User({
             firstName: data.firstName,
