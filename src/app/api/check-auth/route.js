@@ -15,7 +15,7 @@ export async function GET(req){
             return NextResponse.json({ authenticated: false }, { status: 200 })
         }
 
-        return NextResponse.json({ authenticated: true, userID }, { status: 200 })
+        return NextResponse.json({ authenticated: true, user }, { status: 200 })
     }catch(error){
         return NextResponse.json({ authenticated: false }, { status: 200 })
     }
