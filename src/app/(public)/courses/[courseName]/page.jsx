@@ -50,11 +50,11 @@ export default function CourseOverview() {
         }
       })
     const data = await res.json()
-    const isAuthenticated = {
+    const user = {
       authenticated: data.authenticated,
-      email: data.email
+      email: data.user.email
     }
-    return isAuthenticated
+    return user
 
     }catch(error){
       console.log("Error checking authentication")
@@ -66,10 +66,10 @@ export default function CourseOverview() {
 
   async function handleEnroll(){
     try{
-      const isAuthenticated = await checkAuth()
+      const user = await checkAuth()
       const currentPath = window.location.pathname
       
-      if(!isAuthenticated.authenticated){
+      if(!user.authenticated){
         router.push(`/auth/login?error=login_required&redirect=${encodeURIComponent(currentPath)}`)
         return
       }
@@ -80,7 +80,7 @@ export default function CourseOverview() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: isAuthenticated.email,
+          email: user.email,
           courseName: courseName
         })
       })
