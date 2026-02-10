@@ -10,12 +10,13 @@ export async function GET(req){
         }
 
         const user = jwt.verify(token, process.env.JWT_SECRET)
-        const email = user.email
+        const userID = user.userID
+
         if(!user){
             return NextResponse.json({ authenticated: false }, { status: 200 })
         }
 
-        return NextResponse.json({ authenticated: true, email }, { status: 200 })
+        return NextResponse.json({ authenticated: true, userID }, { status: 200 })
     }catch(error){
         return NextResponse.json({ authenticated: false }, { status: 200 })
     }
