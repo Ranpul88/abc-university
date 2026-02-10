@@ -1,6 +1,7 @@
 'use client'
 
 import Loader from '@/app/components/loader';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -62,6 +63,12 @@ export default function Login() {
     }
   }
 
+  async function googleLogin(){
+    setIsLoading(true)
+
+    signIn('google', { callbackUrl: 'http://localhost:3000' })
+  }
+
   return (
     <div className='w-full h-[calc(100%-100px)] flex justify-center items-center '>
       {isLoading ? <Loader /> : <div className='w-82 h-100 border-3 rounded-3xl p-4 flex flex-col items-center'>
@@ -70,7 +77,7 @@ export default function Login() {
         <input type="password"  value={password} onChange={(e)=>{setPassword(e.target.value)}} placeholder='Enter password here...' className='w-[90%] p-1.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-0' />
         <p className='w-[90%] text-right text-[13px] mb-8 mr-1'>Forgot password? <Link href='/forgot-password' className='italic lg:text-secondary text-accent hover:text-accent'>Reset here</Link></p>
         <button onClick={login} disabled={isLoading} className='w-[90%] h-9 border rounded-lg mb-2 bg-accent text-white font-semibold cursor-pointer hover:bg-accent/90'>Login</button>
-        <button className='w-[90%] h-9 flex items-center justify-center gap-1 border rounded-lg bg-accent text-white font-semibold cursor-pointer hover:bg-accent/90'>Login with <FaGoogle /></button>
+        <button onClick={googleLogin} disabled={isLoading} className='w-[90%] h-9 flex items-center justify-center gap-1 border rounded-lg bg-accent text-white font-semibold cursor-pointer hover:bg-accent/90'>Login with <FaGoogle /></button>
         <p className='w-[90%] text-right text-[13px]'>Don't have an account? <Link href='/auth/register' className='italic text-accent lg:text-secondary hover:text-accent mr-1'>Register here</Link></p>
       </div>}
     </div>
