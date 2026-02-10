@@ -1,5 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import AuthProvider from "./providers/sessionProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,15 +9,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-
-
-      <body className="w-full h-screen">
-        <Toaster
-          position="top-right"
-        />
-        {children}
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className="w-full h-screen">
+          <Toaster
+            position="top-right"
+          />
+          {children}
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
