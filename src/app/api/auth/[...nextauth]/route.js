@@ -3,7 +3,7 @@ import User from "@/models/User"
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
-const authOptions = {
+export const authOptions = {
   session: {
     strategy: "jwt"
   },
@@ -83,8 +83,8 @@ const authOptions = {
             token.firstName = dbUser.firstName
             token.lastName = dbUser.lastName
             token.role = dbUser.role
-          } else {
           }
+      
         } catch (error) {
           console.error("Error in JWT callback:", error)
         }
