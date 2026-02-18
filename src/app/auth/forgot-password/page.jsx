@@ -6,6 +6,7 @@ import { FaRegEnvelope } from 'react-icons/fa'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import Loader from '@/app/components/loader';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
@@ -23,7 +24,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const res = fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/send-otp", {
+      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/send-otp", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -44,7 +45,8 @@ export default function ForgotPassword() {
       toast.success("OTP has been sent successfully.")
       router.push('/auth/reset-password')
     }catch(error){
-      
+      toast.error("An error occurred while sending OTP. Please try again.")
+      setIsLoading(false)
     }
   }
 
@@ -57,7 +59,7 @@ export default function ForgotPassword() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-accent/5 rounded-full blur-3xl"></div>
 
       {/* Main Content */}
-      <div className="relative w-full max-w-md px-6 py-8">
+      {isLoading ? <Loader /> : <div className="relative w-full max-w-md px-6 py-8">
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border border-secondary/10">
           {/* Header Section */}
           <div className="text-center space-y-4 mb-8">
@@ -70,8 +72,6 @@ export default function ForgotPassword() {
             </p>
           </div>
 
-          {/* Form */}
-          <form className="space-y-6">
             {/* Email Input */}
             <div className="space-y-2">
               <label 
@@ -99,12 +99,11 @@ export default function ForgotPassword() {
             <button
               onClick={sendOTP}
               disabled={isLoading}
-              className="w-full py-3.5 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+              className="w-full py-3.5 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group my-6"
             >
               <span>Send OTP</span>
               <FaArrowRightLong className='group-hover:translate-x-1 transition-transform' />
             </button>
-          </form>
 
           {/* Divider */}
           <div className="relative my-8">
@@ -150,7 +149,7 @@ export default function ForgotPassword() {
             </span>
           </p>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }
