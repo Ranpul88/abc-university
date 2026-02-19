@@ -114,7 +114,8 @@ export default function ForgotPassword() {
       toast.success("OTP verified successfully!")
       setIsLoading(false)
       setStep(3)
-    } catch (error) {
+      
+    }catch(error){
       toast.error("An error occurred. Please try again.")
       setIsLoading(false)
     }
