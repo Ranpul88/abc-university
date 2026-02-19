@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
-    "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.93.3",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
@@ -27,6 +26,7 @@
     "react-dom": "19.2.3",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+    "resend": "^6.9.2",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
