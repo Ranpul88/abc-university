@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { FaRegEnvelope } from 'react-icons/fa'
 import { FaArrowLeftLong, FaArrowRightLong, FaLock } from "react-icons/fa6";
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/components/loader';
@@ -20,8 +19,6 @@ export default function ForgotPassword() {
   // Step 3 state
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -114,7 +111,7 @@ export default function ForgotPassword() {
       toast.success("OTP verified successfully!")
       setIsLoading(false)
       setStep(3)
-      
+
     }catch(error){
       toast.error("An error occurred. Please try again.")
       setIsLoading(false)
@@ -149,10 +146,7 @@ export default function ForgotPassword() {
       toast.error("Please enter a new password!")
       return
     }
-    if(password.length < 8){
-      toast.error("Password must be at least 8 characters!")
-      return
-    }
+
     if(password !== confirmPassword){
       toast.error("Passwords do not match!")
       return
@@ -252,7 +246,6 @@ export default function ForgotPassword() {
                   <div className="relative">
                     <input
                       type="email"
-                      id="email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && sendOTP()}
@@ -347,34 +340,13 @@ export default function ForgotPassword() {
                     </label>
                     <div className="relative">
                       <input
-                        type={showPassword ? 'text' : 'password'}
-                        id="password"
+                        type= "password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         placeholder="Enter new password"
-                        className="w-full px-4 py-3 pr-12 bg-primary border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200 text-secondary placeholder:text-secondary/40"
+                        className="w-full px-4 py-3 bg-primary border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200 text-secondary placeholder:text-secondary/40"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary/50 hover:text-accent transition-colors"
-                      >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                      </button>
-                    </div>
-                    {password && (
-                      <div className="flex gap-1 mt-1">
-                        {[...Array(4)].map((_, i) => (
-                          <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                            password.length >= (i + 1) * 2
-                              ? password.length >= 12 ? 'bg-green-400'
-                              : password.length >= 8 ? 'bg-accent'
-                              : 'bg-orange-400'
-                              : 'bg-secondary/10'
-                          }`}></div>
-                        ))}
-                      </div>
-                    )}
+                    </div>  
                   </div>
 
                   <div className="space-y-2">
@@ -383,26 +355,13 @@ export default function ForgotPassword() {
                     </label>
                     <div className="relative">
                       <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        id="confirmPassword"
+                        type= "password"
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
                         placeholder="Confirm new password"
-                        className="w-full px-4 py-3 pr-12 bg-primary border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200 text-secondary placeholder:text-secondary/40"
+                        className="w-full px-4 py-3 bg-primary border border-secondary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200 text-secondary placeholder:text-secondary/40"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary/50 hover:text-accent transition-colors"
-                      >
-                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                      </button>
                     </div>
-                    {confirmPassword && (
-                      <p className={`text-xs font-medium transition-colors ${password === confirmPassword ? 'text-green-500' : 'text-red-400'}`}>
-                        {password === confirmPassword ? '✓ Passwords match' : '✗ Passwords do not match'}
-                      </p>
-                    )}
                   </div>
                 </div>
 
