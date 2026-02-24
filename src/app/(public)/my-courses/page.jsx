@@ -30,6 +30,7 @@ export default function MyCourses() {
       return res.json();
     })
     .then((data)=>{
+      console.log(data)
       setCourses(data)
       setIsLoading(false)
     })
@@ -80,18 +81,14 @@ export default function MyCourses() {
                       <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Course Name
                       </th>
-                      
-                      <th className="px-5 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Department
-                      </th>
-                      <th className="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Type
-                      </th>
                       <th className="px-4 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Mode
                       </th>
                       <th className="px-4 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Delivery
+                      </th>
+                      <th className="px-4 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Type
                       </th>
                       <th className="px-4 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Duration
@@ -113,12 +110,6 @@ export default function MyCourses() {
                               <p className="text-sm font-medium text-secondary">{course.courseName.replace(/-/g, ' ')}</p>
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-center font-medium text-gray-900">{course.department}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-center font-medium text-gray-900">{course.duration}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-center font-medium text-gray-900">{course.type}</div>
