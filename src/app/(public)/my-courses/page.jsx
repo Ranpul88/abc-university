@@ -1,8 +1,6 @@
 'use client'
 
 import Loader from "@/app/components/loader";
-import RemoveCourseButton from "@/app/components/removeCourseButton";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -42,13 +40,13 @@ export default function MyCourses() {
   }, [userID])
 
   return (
-    <div className="h-full pt-2 px-8">
+    <div className="h-full pt-2 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Section */}
-        <div className="mb-8 mt-8">
-          <h1 className="text-4xl font-bold text-secondary mb-2">My Courses</h1>
-          <p className="text-gray-600">View my courses</p>
+        <div className="mb-6 mt-6 sm:mb-8 sm:mt-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-secondary mb-2">My Courses</h1>
+          <p className="text-gray-600 text-sm sm:text-base">View my courses</p>
         </div>
 
         {/* Content Card */}
@@ -58,7 +56,7 @@ export default function MyCourses() {
           ) : (
             <>
               {/* Stats Bar */}
-              <div className="bg-linear-to-r from-accent to-blue-600 px-6 py-4">
+              <div className="bg-linear-to-r from-accent to-blue-600 px-4 sm:px-6 py-4">
                 <div className="flex items-center justify-between text-white">
                   <div>
                     <p className="text-sm font-medium opacity-90">Total Courses</p>
@@ -72,8 +70,8 @@ export default function MyCourses() {
                 </div>
               </div>
 
-              {/* Table */}
-              <div className="overflow-x-auto">
+              {/* Table — hidden on mobile, shown on md+ */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200">
@@ -129,6 +127,42 @@ export default function MyCourses() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Card list — shown on mobile, hidden on md+ */}
+              <div className="md:hidden divide-y divide-gray-200">
+                {courses.map((course, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-4 hover:bg-blue-50 transition-colors duration-150 ease-in-out"
+                  >
+                    <p className="text-sm font-semibold text-secondary mb-3">
+                      {course.courseName.replace(/-/g, ' ')}
+                    </p>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Mode</p>
+                        <p className="text-sm font-medium text-gray-900">{course.type}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Delivery</p>
+                        <p className="text-sm font-medium text-gray-900">{course.mode.join('/')}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</p>
+                        <p className="text-sm font-medium text-gray-900">{course.delivery.join('/')}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Duration</p>
+                        <p className="text-sm font-medium text-gray-900">{course.duration}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Hall No</p>
+                        <p className="text-sm font-medium text-gray-900">{course.hallNo}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Empty State */}
