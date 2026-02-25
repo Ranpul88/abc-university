@@ -59,21 +59,21 @@ export default function ContactUs() {
         <div className="absolute top-20 right-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
         
-        <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32">
-          <div className="text-center space-y-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-32">
+          <div className="text-center space-y-6 sm:space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
               <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
               <span className="text-sm font-medium text-accent">Get in Touch</span>
             </div>
             
-            <h1 className="text-5xl font-bold tracking-tight text-accent">
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-accent">
               Contact Us
               <span className="block text-secondary mt-2">
                 We're Here to Help
               </span>
             </h1>
             
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-secondary/70 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-base md:text-xl text-secondary/70 leading-relaxed px-2">
               Have questions about admissions, programs, or campus life? Our dedicated team 
               is ready to assist you. Reach out and let's start a conversation.
             </p>
@@ -82,10 +82,10 @@ export default function ContactUs() {
       </section>
 
       {/* Contact Information Cards */}
-      <section className="py-16 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="group p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
+      <section className="py-12 sm:py-16 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="group p-6 sm:p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
               <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <div className="w-8 h-8 bg-accent/20 rounded-lg"></div>
               </div>
@@ -97,7 +97,7 @@ export default function ContactUs() {
               </p>
             </div>
 
-            <div className="group p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
+            <div className="group p-6 sm:p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
               <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <div className="w-8 h-8 bg-accent/20 rounded-lg"></div>
               </div>
@@ -109,7 +109,7 @@ export default function ContactUs() {
               </p>
             </div>
 
-            <div className="group p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
+            <div className="group p-6 sm:p-8 bg-white rounded-2xl border border-secondary/10 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 sm:col-span-2 md:col-span-1">
               <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <div className="w-8 h-8 bg-accent/20 rounded-lg"></div>
               </div>
@@ -124,23 +124,23 @@ export default function ContactUs() {
         </div>
       </section>
 
-      {/* Contact Form & Map Section */}
-      <section className="py-24 relative">
-        <div className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center">
-          <div className="w-160 gap-12">
+      {/* Contact Form & Office Hours Section */}
+      <section className="py-16 sm:py-24 relative">
+        <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center">
+          <div className="w-full gap-12">
             {/* Contact Form */}
             <div className="space-y-6">
-              <div className="space-y-4 w-full flex flex-col items-center">
+              <div className="space-y-4 w-full flex flex-col items-center text-center">
                 <div className="inline-block px-4 py-1.5 bg-accent/10 rounded-full border border-accent/20">
                   <span className="text-sm font-medium text-accent">Send us a Message</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-secondary">How Can We Help?</h2>
-                <p className="text-secondary/70 text-lg leading-relaxed">
+                <h2 className="text-2xl sm:text-4xl font-bold text-secondary">How Can We Help?</h2>
+                <p className="text-secondary/70 text-base sm:text-lg leading-relaxed">
                   Fill out the form below and our team will get back to you within 24 hours.
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl border border-secondary/10 mb-7 p-8 shadow-lg">
+              <div className="bg-white rounded-2xl border border-secondary/10 mb-7 p-6 sm:p-8 shadow-lg">
                 {loading ? <Loader /> :
                  <form className="space-y-6">
                   <div>
@@ -238,9 +238,9 @@ export default function ContactUs() {
               </div>
             </div>
 
+            {/* Office Hours */}
             <div className="space-y-8">
-              {/* Office Hours */}
-              <div className="bg-white rounded-2xl border border-secondary/10 p-8 shadow-lg">
+              <div className="bg-white rounded-2xl border border-secondary/10 p-6 sm:p-8 shadow-lg">
                 <h3 className="text-xl font-semibold mb-6">Office Hours</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center pb-4 border-b border-secondary/10">
@@ -263,38 +263,38 @@ export default function ContactUs() {
       </section>
 
       {/* Departments Section */}
-      <section className="py-24 relative bg-white/50 backdrop-blur-sm border-y border-secondary/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold">Contact by Department</h2>
-            <p className="text-secondary/60 text-lg max-w-2xl mx-auto">
+      <section className="py-16 sm:py-24 relative bg-white/50 backdrop-blur-sm border-y border-secondary/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center space-y-4 mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold">Contact by Department</h2>
+            <p className="text-secondary/60 text-base sm:text-lg max-w-2xl mx-auto">
               Reach out to specific departments for specialized assistance
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="p-5 sm:p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-lg mb-2">Admissions Office</h3>
               <p className="text-sm text-secondary/60 mb-3">For prospective students</p>
-              <p className="text-accent text-sm font-medium">admissions@abcuniversity.edu</p>
+              <p className="text-accent text-sm font-medium break-all">admissions@abcuniversity.edu</p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+            <div className="p-5 sm:p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-lg mb-2">Financial Aid</h3>
               <p className="text-sm text-secondary/60 mb-3">Scholarships & aid programs</p>
-              <p className="text-accent text-sm font-medium">financialaid@abcuniversity.edu</p>
+              <p className="text-accent text-sm font-medium break-all">financialaid@abcuniversity.edu</p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+            <div className="p-5 sm:p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-lg mb-2">Academic Affairs</h3>
               <p className="text-sm text-secondary/60 mb-3">Program & course inquiries</p>
-              <p className="text-accent text-sm font-medium">academic@abcuniversity.edu</p>
+              <p className="text-accent text-sm font-medium break-all">academic@abcuniversity.edu</p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+            <div className="p-5 sm:p-6 bg-white rounded-xl border border-secondary/10 hover:border-accent/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-lg mb-2">Student Services</h3>
               <p className="text-sm text-secondary/60 mb-3">Current student support</p>
-              <p className="text-accent text-sm font-medium">students@abcuniversity.edu</p>
+              <p className="text-accent text-sm font-medium break-all">students@abcuniversity.edu</p>
             </div>
           </div>
         </div>
