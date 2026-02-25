@@ -83,7 +83,7 @@ export default function Login() {
 
             {/* Header */}
             <div className="text-center space-y-3 mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-secondary">
+              <h1 className="text-4xl font-bold text-secondary">
                 Welcome Back
               </h1>
               <p className="text-secondary/60 text-sm md:text-base leading-relaxed">
