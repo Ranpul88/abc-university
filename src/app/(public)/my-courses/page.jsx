@@ -30,7 +30,6 @@ export default function MyCourses() {
       return res.json();
     })
     .then((data)=>{
-      console.log(data)
       setCourses(data)
       setIsLoading(false)
     })
@@ -40,7 +39,7 @@ export default function MyCourses() {
       toast.error('Failed to fetch courses')
       setIsLoading(false)
     })
-  }, [isLoading])
+  }, [userID])
 
   return (
     <div className="h-full pt-2 px-8">

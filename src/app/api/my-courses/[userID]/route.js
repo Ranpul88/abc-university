@@ -4,11 +4,11 @@ import User from "@/models/User"
 import { NextResponse } from "next/server"
 
 export async function GET(req, context){
-    connectDB()
+    await connectDB()
 
     try {
         const { userID } = await context.params
-
+        
         const user = await User.findOne({ userID: userID })
         if(!user){
             return NextResponse.json({ message: "User not found" }, { status: 404 })
@@ -17,7 +17,7 @@ export async function GET(req, context){
         const enrolledCourses = user.coursesEnrolled
 
         if(enrolledCourses.length === 0){
-            return NextResponse.json({ message: "No courses enrolled" }, { status: 404 })
+            return NextResponse.json([], { status: 200 })
         }
 
         const courses = await Course.find({ courseName: { $in: enrolledCourses } })
