@@ -13,7 +13,7 @@ export default function Home() {
     if(error === 'unauthorized'){
       toast.error("You are not authorized to access that page.")
     }
-  }, [error])
+  }, [])
 
   return (
     <div className="w-full min-h-screen bg-primary text-secondary">
