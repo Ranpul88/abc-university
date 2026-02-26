@@ -2,14 +2,13 @@
 
 import Loader from "@/app/components/loader";
 import uploadFile from "@/lib/mediaUpload";
-import {  useRouter, useSearchParams } from "next/navigation";
+import {  useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UpdateCourse() {
 
-    const searchParams = useSearchParams();
-    const courseName = searchParams.get('courseName');
+    const { courseName } = useParams();
 
     const [course, setCourse] = useState([]);
     const [duration, setDuration] = useState('');
