@@ -10,7 +10,7 @@ export default function CourseOverview() {
   const params = useParams()
   const courseName = params.courseName
   
-  
+  const [authenticated, setAuthenticated] = useState(false)
   const [course, setCourse] = useState([])
   const [activeTab, setActiveTab] = useState('overview')
   const [isLoading, setIsLoading] = useState(true)
@@ -50,11 +50,11 @@ export default function CourseOverview() {
         }
       })
     const data = await res.json()
-    const user = {
-      authenticated: data.authenticated,
-      email: data.user.email
+    setAuthenticated(data.authenticated)
+
+    if(data.authenticated){
+      return data.user
     }
-    return user
 
     }catch(error){
       console.log("Error checking authentication")
@@ -69,7 +69,7 @@ export default function CourseOverview() {
       const user = await checkAuth()
       const currentPath = window.location.pathname
       
-      if(!user.authenticated){
+      if(!authenticated){
         router.push(`/auth/login?error=login_required&redirect=${encodeURIComponent(currentPath)}`)
         return
       }
