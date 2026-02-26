@@ -84,7 +84,7 @@ export default function UserData() {
           <div className="w-50 h-full flex items-center justify-center">Loading...</div>
         ) : session || isAuthenticated ? (
           <div className="flex gap-4">
-            <Link href={{pathname:'/my-courses', query: {userID: userID}}} className="hover:scale-105">My Courses</Link>
+            <Link href={`/my-courses/${userID}`} className="hover:scale-105">My Courses</Link>
             <button onClick={handleLogout} className="rounded-lg cursor-pointer hover:scale-105">Logout</button>
           </div>
         ) : (
@@ -121,7 +121,7 @@ export default function UserData() {
               <span className="text-sm text-gray-400">Loading...</span>
             ) : session || isAuthenticated ? (
               <div className="flex flex-col gap-3">
-                <Link href={{pathname:'/my-courses', query: {userID: userID}}} className="hover:scale-105" onClick={() => setMenuOpen(false)}>My Courses</Link>
+                <Link href={`/my-courses/${userID}`} className="hover:scale-105" onClick={() => setMenuOpen(false)}>My Courses</Link>
                 <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="text-left rounded-lg cursor-pointer hover:scale-105">Logout</button>
               </div>
             ) : (
