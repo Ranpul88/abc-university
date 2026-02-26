@@ -1,15 +1,14 @@
 'use client'
 
 import Loader from "@/app/components/loader";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MyCourses() { 
 
-  const searchParams = useSearchParams();
-  const userID = searchParams.get('userID');
-  
+  const { userID } = useParams();
+    
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
