@@ -60,8 +60,8 @@ export default function AdminStudentPage() {
               </div>
 
               {/* Table */}
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="overflow-x-auto h-120">
+                <table className="w-full ">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200">
                       <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">

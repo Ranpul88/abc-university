@@ -60,7 +60,7 @@ export default function AdminLecturersPage() {
               </div>
 
               {/* Table */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto h-120">
                 <table className="w-full">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-200">
