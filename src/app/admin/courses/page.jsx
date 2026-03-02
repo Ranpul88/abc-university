@@ -126,9 +126,7 @@ export default function AdminStudentPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-white flex justify-center gap-2">
-                            <Link href={{pathname:"/admin/courses/update-course",
-                              query: {courseName: course.courseName}
-                            }}
+                            <Link href={`/admin/courses/update-course/${course.courseName}`}
                               className="px-2 py-1 rounded-md bg-accent hover:bg-accent/80">
                               Edit
                             </Link>
