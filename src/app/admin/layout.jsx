@@ -17,7 +17,7 @@ export default function AdminLayout({ children }){
                     </div>
                 </div>
             </div>
-            <div className="w-[calc(99%-300px)] h-[98%] p-8 border-4 border-accent bg-primary rounded-4xl overflow-y-auto">
+            <div className="w-[calc(99%-300px)] h-[98%] p-8 pb-20 border-4 border-accent bg-primary rounded-4xl overflow-hidden">
                 {children}
             </div>
         </div>

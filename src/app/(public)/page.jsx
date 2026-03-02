@@ -6,14 +6,13 @@ import toast from "react-hot-toast";
 
 export default function Home() {
 
-  const searchParams = useSearchParams()
-  const error = searchParams.get('error')
-
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
     if(error === 'unauthorized'){
       toast.error("You are not authorized to access that page.")
     }
-  }, [error])
+  }, [])
 
   return (
     <div className="w-full min-h-screen bg-primary text-secondary">

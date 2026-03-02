@@ -15,14 +15,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const searchParams = useSearchParams()
-  const error = searchParams.get('error')
-
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
     if (error === 'login_required') {
       toast.error("You must be logged in to access that page.")
     }
-  }, [error])
+  }, [])
 
   async function login() {
     setIsLoading(true)
