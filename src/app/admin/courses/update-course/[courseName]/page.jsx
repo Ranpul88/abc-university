@@ -9,8 +9,10 @@ import toast from "react-hot-toast";
 export default function UpdateCourse() {
 
     const { courseName } = useParams();
-
-    const [course, setCourse] = useState([]);
+    
+    const [course, setCourse] = useState('');
+    const [type, setType] = useState('');
+    const [department, setDepartment] = useState('');
     const [duration, setDuration] = useState('');
     const [mode, setMode] = useState('');
     const [delivery, setDelivery] = useState('');
@@ -19,6 +21,7 @@ export default function UpdateCourse() {
     const [hallNo, setHallNo] = useState('');
     const [intakes, setIntakes] = useState('');
     const [files, setFiles] = useState([]);
+    const [newFiles, setNewFiles] = useState([]);
     const [availability, setAvailability] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [disabled, setDisabled] = useState(true);
@@ -34,7 +37,19 @@ export default function UpdateCourse() {
         })
         .then(res => res.json())
         .then((data) => {
-            setCourse(data);
+            console.log("Hello")
+            setCourse(data.courseName)
+            setType(data.type)
+            setDepartment(data.department)
+            setDuration(data.duration)
+            setMode(data.mode.join(','))
+            setDelivery(data.delivery.join(','))
+            setDescription(data.description)
+            setEntryRequirements(data.entryRequirements.join(','))
+            setHallNo(data.hallNo)
+            setIntakes(data.intakes.join(','))
+            setFiles(data.files)
+            setAvailability(data.availability)
             setIsLoading(false)
         })
         .catch(err=>{
@@ -47,7 +62,7 @@ export default function UpdateCourse() {
     const router = useRouter();
 
     async function updateCourse(){
-        if(duration.trim == "" || mode.trim == "" || delivery.trim == "" || description.trim == "" || entryRequirements.trim == "" || hallNo.trim == "" || intakes.trim == ""){
+        if(duration.trim() == "" || mode.trim() == "" || delivery.trim() == "" || description.trim() == "" || entryRequirements.trim() == "" || hallNo.trim() == "" || intakes.trim() == ""){
         toast.error("Please fill in all required fields.")
         return
         }
@@ -60,8 +75,8 @@ export default function UpdateCourse() {
 
         const courseContentPromises = []
         
-        for(let i = 0; i < files.length; i++){
-            const promises = uploadFile(files[i])
+        for(let i = 0; i < newFiles.length; i++){
+            const promises = uploadFile(newFiles[i])
             courseContentPromises.push(promises)
         }
     
@@ -87,7 +102,7 @@ export default function UpdateCourse() {
             entryRequirements: entryRequirements,
             hallNo: hallNo,
             intakes: intakesInArray,
-            courseContent: courseContent,
+            courseContent: courseContent.length > 0 ? courseContent : files,
             availability: availability
         })
         });
@@ -108,57 +123,70 @@ export default function UpdateCourse() {
             {isLoading ? <Loader /> : <div className="w-135 h-170 border-2  p-6 rounded-2xl shadow-lg bg-white overflow-y-scroll">
             <h2 className="text-2xl font-semibold mb-6 text-accent border-b pb-3">Update Course</h2>
             <div className="flex flex-col gap-4">
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Course Name</label>
-                <input type="text" disabled={true} value={course.courseName} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={course} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Type<p className="text-sm text-gray-500">(eg: diploma, higher diploma or degree)</p></label>
-                <input type="text" disabled={true} value={course.type} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={type} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Department</label>
-                <input type="text" disabled={true} value={course.department} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" disabled={true} value={department} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Duration</label>
-                <input type="text" value={course.duration} onChange={(e) => {setDuration(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={duration} onChange={(e) => {setDuration(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Mode<p className="text-sm text-gray-500">(eg: part-time or full-time)</p></label>
-                <input type="text" value={course.mode} onChange={(e) => {setMode(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={mode} onChange={(e) => {setMode(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="flex mb-1 font-medium items-baseline text-gray-700">Delivery<p className="text-sm text-gray-500">(eg: online, physical or hybrid)</p></label>
-                <input type="text" value={course.delivery} onChange={(e) => {setDelivery(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={delivery} onChange={(e) => {setDelivery(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Description</label>
-                <textarea value={course.description} onChange={(e) => {setDescription(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
+                <textarea value={description} onChange={(e) => {setDescription(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" name="" id=""></textarea>
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Entry Requirements</label>
-                <textarea type="text" value={course.entryRequirements} onChange={(e) => {setEntryRequirements(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={entryRequirements} onChange={(e) => {setEntryRequirements(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Hall No</label>
-                <textarea type="text" value={course.hallNo} onChange={(e) => {setHallNo(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                <textarea type="text" value={hallNo} onChange={(e) => {setHallNo(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
             </div>
+            
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Intakes<p className="text-sm text-gray-500">(monthes)</p></label>
-                <input type="text" value={course.intakes} onChange={(e) => {setIntakes(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
+                <input type="text" value={intakes} onChange={(e) => {setIntakes(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="flex items-baseline mb-1 font-medium text-gray-700">Course Content</label>
-                <input type="file" multiple={true} value={course.files} onChange={(e) => {setFiles(e.target.files), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
+                <input type="file" multiple={true}  onChange={(e) => {setNewFiles(e.target.files), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer" />
             </div>
+            
             <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Availability</label>
-                <select value={course.availability} onChange={(e) => {setAvailability(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                <select value={availability} onChange={(e) => {setAvailability(e.target.value), setDisabled(false)}} className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                 </select>
             </div>
+            
             <button onClick={updateCourse} disabled={disabled} className={`mt-4  text-white px-4 py-2 rounded-md  ${disabled ? 'bg-accent/50 cursor-not-allowed' : 'hover:bg-accent/80 transition-colors duration-200 bg-accent cursor-pointer'}`}>
                 Update Course
             </button>
