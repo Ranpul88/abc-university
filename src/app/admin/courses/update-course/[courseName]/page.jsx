@@ -37,7 +37,6 @@ export default function UpdateCourse() {
         })
         .then(res => res.json())
         .then((data) => {
-            console.log("Hello")
             setCourse(data.courseName)
             setType(data.type)
             setDepartment(data.department)
